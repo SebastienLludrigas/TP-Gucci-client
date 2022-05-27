@@ -1,90 +1,84 @@
 <template>
   <section class="overlay">
-    <div
-      v-if="deleteError"
-      class="error"
-    >
-      <h3>{{ message }}<i class="fas fa-exclamation-circle" aria-hidden="true" /></h3>
+    <div v-if="deleteError" class="error">
+      <h3>
+        {{ message }}<i class="fas fa-exclamation-circle" aria-hidden="true" />
+      </h3>
     </div>
-    <div
-      v-if="!deleteError"
-      class="confirm-delete"
-    >
+    <div v-if="!deleteError" class="confirm-delete">
       <h3>
         Êtes-vous sûr de vouloir supprimer
         <span v-if="deleteApp"> de la réservation l'application</span>
-        <span v-else>la réservation</span><br>
+        <span v-else>la réservation</span><br />
         <span class="deleteName">{{ name }}</span>
       </h3>
-      <button
-        class="button validation"
-        @click="deleteItem()"
-      >
-        Confirmer
-      </button>
-      <button class="button annulation" @click="closeModal">
-        Annuler
-      </button>
+      <button class="button validation" @click="deleteItem()">Confirmer</button>
+      <button class="button annulation" @click="closeModal">Annuler</button>
     </div>
   </section>
 </template>
 
 <script>
-/* eslint-disable no-console */
 export default {
-  data () {
+  data() {
     return {
-      deleteApp: false
-    }
+      deleteApp: false,
+    };
   },
 
   computed: {
-    name () {
-      return this.$store.getters['reservation/deleteName']
+    name() {
+      return this.$store.getters["reservation/deleteName"];
     },
 
-    deleteError () {
-      return this.$store.getters['reservation/deleteError']
+    deleteError() {
+      return this.$store.getters["reservation/deleteError"];
     },
 
-    message () {
-      return this.$store.getters['reservation/errorMessage']
-    }
+    message() {
+      return this.$store.getters["reservation/errorMessage"];
+    },
   },
 
-  mounted () {
-    if (this.$store.getters['reservation/deletionType'] === 'app') {
-      this.deleteApp = true
+  mounted() {
+    if (this.$store.getters["reservation/deletionType"] === "app") {
+      this.deleteApp = true;
     }
   },
 
   methods: {
-    closeModal () {
-      this.$store.commit('reservation/setDisplayModalDelete', false)
+    closeModal() {
+      this.$store.commit("reservation/setDisplayModalDelete", false);
     },
 
-    async deleteItem () {
-      if (this.$store.getters['reservation/deletionType'] === 'app') {
-        await this.$store.dispatch('reservation/deleteOneReservedApplication')
+    async deleteItem() {
+      if (this.$store.getters["reservation/deletionType"] === "app") {
+        await this.$store.dispatch("reservation/deleteOneReservedApplication");
       } else {
-        await this.$store.dispatch('reservation/deleteEntireReservation')
+        await this.$store.dispatch("reservation/deleteEntireReservation");
       }
 
-      if (!this.$store.getters['reservation/deleteError']) {
-        console.log(this.$store.getters['reservation/deleteError'])
+      if (!this.$store.getters["reservation/deleteError"]) {
+        console.log(this.$store.getters["reservation/deleteError"]);
 
-        this.$store.commit('reservation/setConfirmationMessage', 'La suppression a bien été effectuée')
+        this.$store.commit(
+          "reservation/setConfirmationMessage",
+          "La suppression a bien été effectuée"
+        );
 
-        this.$store.commit('reservation/setDisplayModalDelete', false)
-        this.$store.commit('reservation/setDisplayModalResaConfirmation', true)
+        this.$store.commit("reservation/setDisplayModalDelete", false);
+        this.$store.commit("reservation/setDisplayModalResaConfirmation", true);
         setTimeout(() => {
-          this.$router.go()
-          this.$store.commit('reservation/setDisplayModalResaConfirmation', false)
-        }, 2000)
+          this.$router.go();
+          this.$store.commit(
+            "reservation/setDisplayModalResaConfirmation",
+            false
+          );
+        }, 2000);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -119,8 +113,8 @@ export default {
   }
 
   .fas.fa-exclamation-circle {
-   margin-left: 0.4em;
-   color: red;
+    margin-left: 0.4em;
+    color: red;
   }
 }
 

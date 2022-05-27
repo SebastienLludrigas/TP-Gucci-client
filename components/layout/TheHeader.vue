@@ -11,6 +11,11 @@
     </nuxt-link>
     <nav class="navbar">
       <ul>
+        <li>
+          <nuxt-link to="/admin">
+            Admin
+          </nuxt-link>
+        </li>
         <li v-if="!isConnected">
           <nuxt-link to="/Login">
             Connexion

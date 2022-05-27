@@ -2,16 +2,10 @@
   <div>
     <h2>Mes réservations</h2>
     <section class="container">
-      <div
-        v-if="!reservationsList"
-        class="resa-empty"
-      >
+      <div v-if="!reservationsList" class="resa-empty">
         <h3>Aucune réservation</h3>
       </div>
-      <div
-        v-else
-        class="list-container"
-      >
+      <div v-else class="list-container">
         <div
           v-for="reservation in reservationsList"
           :key="`${reservation.idReservation}`"
@@ -34,71 +28,74 @@
               Fermer
             </button>
           </div>
-          <div
-            v-if="reservation.show"
-            class="infos-container"
-          >
+          <div v-if="reservation.show" class="infos-container">
             <div class="table-container">
-              <table
-                class="table-infos"
-              >
+              <table class="table-infos">
                 <tbody>
                   <tr>
-                    <td
-                      class="data-name"
-                    >
-                      Intitule
-                    </td>
+                    <td class="data-name">Intitule</td>
                     <td>{{ reservation.intituleReservation }}</td>
                     <td
-                      @click="update('intitule', reservation.intituleReservation, reservation.idReservation)"
+                      @click="
+                        update(
+                          'intitule',
+                          reservation.intituleReservation,
+                          reservation.idReservation
+                        )
+                      "
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
                   </tr>
-                  <tr
-                    class="row-comments"
-                  >
-                    <td
-                      class="data-name"
-                    >
-                      Commentaires
-                    </td>
-                    <td
-                      class="cell-comments"
-                    >
+                  <tr class="row-comments">
+                    <td class="data-name">Commentaires</td>
+                    <td class="cell-comments">
                       <div class="comments">
                         {{ reservation.commentsReservation }}
                       </div>
                     </td>
                     <td
-                      @click="update('comments', reservation.commentsReservation, reservation.idReservation)"
+                      @click="
+                        update(
+                          'comments',
+                          reservation.commentsReservation,
+                          reservation.idReservation
+                        )
+                      "
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
                   </tr>
                   <tr>
-                    <td
-                      class="data-name"
-                    >
-                      Date de début
-                    </td>
+                    <td class="data-name">Date de début</td>
                     <td>{{ reservation.dateDebutReservation }}</td>
                     <td
-                      @click="updateDate('dateDebut', reservation.dateDebutReservation, reservation.dateFinReservation, reservation.allReservedApplications, reservation.idReservation)"
+                      @click="
+                        updateDate(
+                          'dateDebut',
+                          reservation.dateDebutReservation,
+                          reservation.dateFinReservation,
+                          reservation.allReservedApplications,
+                          reservation.idReservation
+                        )
+                      "
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
                   </tr>
                   <tr>
-                    <td
-                      class="data-name"
-                    >
-                      Date de fin
-                    </td>
+                    <td class="data-name">Date de fin</td>
                     <td>{{ reservation.dateFinReservation }}</td>
                     <td
-                      @click="updateDate('dateFin', reservation.dateDebutReservation, reservation.dateFinReservation, reservation.allReservedApplications, reservation.idReservation)"
+                      @click="
+                        updateDate(
+                          'dateFin',
+                          reservation.dateDebutReservation,
+                          reservation.dateFinReservation,
+                          reservation.allReservedApplications,
+                          reservation.idReservation
+                        )
+                      "
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
@@ -107,9 +104,7 @@
               </table>
             </div>
             <div class="table-container">
-              <table
-                class="table-list-app"
-              >
+              <table class="table-list-app">
                 <thead>
                   <tr>
                     <th>Couloir</th>
@@ -126,7 +121,15 @@
                     <td>{{ application.nom_plateforme }}</td>
                     <td>{{ application.nom_application }}</td>
                     <td
-                      @click="deleteOne(application.nom_application, reservation.idReservation, application.id_couloir, application.id_plateforme, application.id_application)"
+                      @click="
+                        deleteOne(
+                          application.nom_application,
+                          reservation.idReservation,
+                          application.id_couloir,
+                          application.id_plateforme,
+                          application.id_application
+                        )
+                      "
                     >
                       <i class="fas fa-trash-alt" aria-hidden="true" />
                     </td>
@@ -136,7 +139,12 @@
             </div>
             <button
               class="button resa-delete"
-              @click="deleteAll(reservation.intituleReservation, reservation.idReservation)"
+              @click="
+                deleteAll(
+                  reservation.intituleReservation,
+                  reservation.idReservation
+                )
+              "
             >
               Supprimer
             </button>
@@ -156,23 +164,20 @@
 </template>
 
 <script>
-/* eslint-disable no-lonely-if */
-/* eslint-disable no-console */
-
 export default {
   computed: {
-    reservationsList () {
-      return this.$store.getters['auth/userReservations']
-    }
+    reservationsList() {
+      return this.$store.getters["auth/userReservations"];
+    },
   },
 
-  mounted () {
+  mounted() {
     // this.$router.go()
   },
 
   methods: {
-    toggleInfosResa (id) {
-      console.log('It goes trought there')
+    toggleInfosResa(id) {
+      console.log("It goes trought there");
       // const testArray = [...]
       // const newReservationsList = this.$store.getters['auth/userReservations'].filter((item) => {
       //   if (item.idReservation === id) {
@@ -182,63 +187,82 @@ export default {
       // })
 
       // this.reservationsList = newReservationsList
-      this.$store.commit('auth/setUserReservations', id)
+      this.$store.commit("auth/setUserReservations", id);
     },
 
-    update (updateType, currentValue, idReservation) {
-      this.$store.commit('reservation/setCurrentReservationId', idReservation)
-      console.log(updateType)
-      if (updateType === 'intitule') {
-        this.$store.commit('reservation/setValueToUpdate', currentValue)
-        this.$store.commit('reservation/setDisplayModalUpdate', true)
-        this.$store.commit('reservation/setUpdateIntitule', true)
-      } else if (updateType === 'comments') {
-        this.$store.commit('reservation/setValueToUpdate', currentValue)
-        this.$store.commit('reservation/setDisplayModalUpdate', true)
-        this.$store.commit('reservation/setUpdateComments', true)
+    update(updateType, currentValue, idReservation) {
+      this.$store.commit("reservation/setCurrentReservationId", idReservation);
+      console.log(updateType);
+      if (updateType === "intitule") {
+        this.$store.commit("reservation/setValueToUpdate", currentValue);
+        this.$store.commit("reservation/setDisplayModalUpdate", true);
+        this.$store.commit("reservation/setUpdateIntitule", true);
+      } else if (updateType === "comments") {
+        this.$store.commit("reservation/setValueToUpdate", currentValue);
+        this.$store.commit("reservation/setDisplayModalUpdate", true);
+        this.$store.commit("reservation/setUpdateComments", true);
       }
     },
 
-    updateDate (updateType, dateDebut, dateFin, allReservedApplications, idReservation) {
-      this.$store.commit('reservation/setCurrentReservationId', idReservation)
-      const tp1 = dateDebut.split('/')
-      const tp2 = dateFin.split('/')
-      const dateDebutFormated = `${tp1[2]}-${tp1[1]}-${tp1[0]}`
-      const dateFinFormated = `${tp2[2]}-${tp2[1]}-${tp2[0]}`
+    updateDate(
+      updateType,
+      dateDebut,
+      dateFin,
+      allReservedApplications,
+      idReservation
+    ) {
+      this.$store.commit("reservation/setCurrentReservationId", idReservation);
+      const tp1 = dateDebut.split("/");
+      const tp2 = dateFin.split("/");
+      const dateDebutFormated = `${tp1[2]}-${tp1[1]}-${tp1[0]}`;
+      const dateFinFormated = `${tp2[2]}-${tp2[1]}-${tp2[0]}`;
 
-      this.$store.commit('reservation/setCurrentReservationApplications', allReservedApplications)
-      console.log(allReservedApplications)
+      this.$store.commit(
+        "reservation/setCurrentReservationApplications",
+        allReservedApplications
+      );
+      console.log(allReservedApplications);
 
-      if (updateType === 'dateDebut') {
-        this.$store.commit('reservation/setValueToUpdate', { dateDebutFormated, dateFinFormated })
-        this.$store.commit('reservation/setDisplayModalUpdate', true)
-        this.$store.commit('reservation/setUpdateDateDebut', true)
+      if (updateType === "dateDebut") {
+        this.$store.commit("reservation/setValueToUpdate", {
+          dateDebutFormated,
+          dateFinFormated,
+        });
+        this.$store.commit("reservation/setDisplayModalUpdate", true);
+        this.$store.commit("reservation/setUpdateDateDebut", true);
       } else {
-        this.$store.commit('reservation/setValueToUpdate', { dateDebutFormated, dateFinFormated })
-        this.$store.commit('reservation/setDisplayModalUpdate', true)
-        this.$store.commit('reservation/setUpdateDateFin', true)
+        this.$store.commit("reservation/setValueToUpdate", {
+          dateDebutFormated,
+          dateFinFormated,
+        });
+        this.$store.commit("reservation/setDisplayModalUpdate", true);
+        this.$store.commit("reservation/setUpdateDateFin", true);
       }
     },
 
-    deleteOne (applicationName, idResa, idCouloir, idPlateforme, idApplication) {
-      this.$store.commit('reservation/setDeleteInfos', { idResa, idCouloir, idPlateforme, idApplication })
-      this.$store.commit('reservation/setDeleteName', applicationName)
-      this.$store.commit('reservation/setDeletionType', 'app')
-      this.$store.commit('reservation/setDisplayModalDelete', true)
+    deleteOne(applicationName, idResa, idCouloir, idPlateforme, idApplication) {
+      this.$store.commit("reservation/setDeleteInfos", {
+        idResa,
+        idCouloir,
+        idPlateforme,
+        idApplication,
+      });
+      this.$store.commit("reservation/setDeleteName", applicationName);
+      this.$store.commit("reservation/setDeletionType", "app");
+      this.$store.commit("reservation/setDisplayModalDelete", true);
     },
 
-    deleteAll (reservationIntitule, idResa) {
-      this.$store.commit('reservation/setDeleteInfos', idResa)
-      this.$store.commit('reservation/setDeleteName', reservationIntitule)
-      this.$store.commit('reservation/setDeletionType', 'resa')
-      this.$store.commit('reservation/setDisplayModalDelete', true)
-    }
-  }
-}
+    deleteAll(reservationIntitule, idResa) {
+      this.$store.commit("reservation/setDeleteInfos", idResa);
+      this.$store.commit("reservation/setDeleteName", reservationIntitule);
+      this.$store.commit("reservation/setDeletionType", "resa");
+      this.$store.commit("reservation/setDisplayModalDelete", true);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
-
 h2 {
   font-size: 1.7rem;
   margin-top: 2rem;
@@ -347,7 +371,7 @@ h2 {
       margin: 0 auto;
 
       .table-list-app {
-      // border-collapse: collapse;
+        // border-collapse: collapse;
         margin: 0.6rem auto;
         width: 90%;
         text-align: left;

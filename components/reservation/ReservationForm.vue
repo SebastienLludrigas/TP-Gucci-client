@@ -2,9 +2,7 @@
   <section class="overlay">
     <div class="form-box">
       <form class="form" @submit.prevent="submitForm">
-        <p class="title">
-          Veuillez saisir les informations suivantes :
-        </p>
+        <p class="title">Veuillez saisir les informations suivantes :</p>
         <div class="box-control-intitule">
           <label for="start">Intitulé</label>
           <input
@@ -14,7 +12,7 @@
             maxlength="20"
             :class="intitule.isValid ? '' : 'invalidInput'"
             @blur="invalidButton"
-          >
+          />
           <p v-if="!intitule.isValid" class="invalid">
             Attention, le champ intitulé doit être rempli !
           </p>
@@ -39,7 +37,7 @@
               type="date"
               :class="invalidDate"
               @blur="invalidButton"
-            >
+            />
           </div>
           <div class="box-control-date">
             <label for="end">Date fin</label>
@@ -49,7 +47,7 @@
               type="date"
               :class="invalidDate"
               @blur="invalidButton"
-            >
+            />
           </div>
         </div>
         <p
@@ -57,7 +55,7 @@
           class="invalid"
         >
           Attention, la date saisie entre en conflit avec la date d'une
-          réservation déjà existante !<br>
+          réservation déjà existante !<br />
           Veuillez vérifier le tableau de réservation et réessayer.
         </p>
         <p
@@ -72,16 +70,10 @@
         <p v-if="!start.isValidMaxTime && !end.isValidMaxTime" class="invalid">
           Attention, la durée de réservation ne peut excéder 6 mois !
         </p>
-        <button
-          :class="{ button: true, invalid: invalid, validation: true }"
-        >
+        <button :class="{ button: true, invalid: invalid, validation: true }">
           Valider
         </button>
-        <button
-          class="button annulation"
-          type="button"
-          @click="closeModal"
-        >
+        <button class="button annulation" type="button" @click="closeModal">
           Annuler
         </button>
       </form>
@@ -90,40 +82,39 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 export default {
-  data () {
+  data() {
     return {
       intitule: {
-        value: '',
-        isValid: true
+        value: "",
+        isValid: true,
       },
       comments: {
-        value: '',
-        isValid: true
+        value: "",
+        isValid: true,
       },
       start: {
-        value: '',
+        value: "",
         isValidMaxTime: true,
         isValidDiffBetweenDate: true,
         isDateFilled: true,
-        isDateNotAlreadyExist: true
+        isDateNotAlreadyExist: true,
       },
       end: {
-        value: '',
+        value: "",
         isValidMaxTime: true,
         isValidDiffBetweenDate: true,
         isDateFilled: true,
-        isDateNotAlreadyExist: true
+        isDateNotAlreadyExist: true,
       },
       formIsValid: true,
-      invalid: true
-    }
+      invalid: true,
+    };
   },
   computed: {
-    invalidDate () {
+    invalidDate() {
       return {
         inputInvalid:
           !this.start.isValidMaxTime ||
@@ -131,71 +122,72 @@ export default {
           !this.start.isDateFilled ||
           !this.end.isValidMaxTime ||
           !this.end.isValidDiffBetweenDate ||
-          !this.end.isDateFilled
-      }
-    }
+          !this.end.isDateFilled,
+      };
+    },
   },
 
   methods: {
-    invalidButton () {
-      this.intituleVerif()
-      if (this.start.value !== '' && this.end.value !== '') {
-        this.dateVerif()
+    invalidButton() {
+      this.intituleVerif();
+      if (this.start.value !== "" && this.end.value !== "") {
+        this.dateVerif();
       }
     },
 
-    intituleVerif () {
-      this.intitule.isValid = true
+    intituleVerif() {
+      this.intitule.isValid = true;
 
       if (this.intitule.value.length === 0) {
-        this.intitule.isValid = false
-        this.formIsValid = false
-        this.invalid = true
+        this.intitule.isValid = false;
+        this.formIsValid = false;
+        this.invalid = true;
       }
     },
 
-    dateVerif (isSubmitForm = false) {
-      this.start.isValidDiffBetweenDate = true
-      this.end.isValidDiffBetweenDate = true
-      this.start.isValidMaxTime = true
-      this.end.isValidMaxTime = true
-      this.start.isDateFilled = true
-      this.end.isDateFilled = true
-      this.start.isDateNotAlreadyExist = true
-      this.end.isDateNotAlreadyExist = true
-      this.formIsValid = true
-      this.intitule.isValid ? this.invalid = false : this.invalid = true
+    dateVerif(isSubmitForm = false) {
+      this.start.isValidDiffBetweenDate = true;
+      this.end.isValidDiffBetweenDate = true;
+      this.start.isValidMaxTime = true;
+      this.end.isValidMaxTime = true;
+      this.start.isDateFilled = true;
+      this.end.isDateFilled = true;
+      this.start.isDateNotAlreadyExist = true;
+      this.end.isDateNotAlreadyExist = true;
+      this.formIsValid = true;
+      this.intitule.isValid ? (this.invalid = false) : (this.invalid = true);
 
-      if (dayjs(this.end.value).diff(this.start.value, 'day') < 0) {
-        this.start.isValidDiffBetweenDate = false
-        this.end.isValidDiffBetweenDate = false
-        this.formIsValid = false
-        this.invalid = true
+      if (dayjs(this.end.value).diff(this.start.value, "day") < 0) {
+        this.start.isValidDiffBetweenDate = false;
+        this.end.isValidDiffBetweenDate = false;
+        this.formIsValid = false;
+        this.invalid = true;
       }
-      if (dayjs(this.end.value).diff(this.start.value, 'month') > 6) {
-        this.start.isValidMaxTime = false
-        this.end.isValidMaxTime = false
-        this.formIsValid = false
-        this.invalid = true
+      if (dayjs(this.end.value).diff(this.start.value, "month") > 6) {
+        this.start.isValidMaxTime = false;
+        this.end.isValidMaxTime = false;
+        this.formIsValid = false;
+        this.invalid = true;
       }
       if (isSubmitForm) {
-        if (this.start.value === '' || this.end.value === '') {
-          this.start.isDateFilled = false
-          this.end.isDateFilled = false
-          this.formIsValid = false
-          this.invalid = true
+        if (this.start.value === "" || this.end.value === "") {
+          this.start.isDateFilled = false;
+          this.end.isDateFilled = false;
+          this.formIsValid = false;
+          this.invalid = true;
         }
       }
 
-      const selection = this.$store.getters.selectionApp
-      const infosExistingResas = this.$store.getters['reservation/infosResas']
+      const selection = this.$store.getters.selectionApp;
+      const infosExistingResas = this.$store.getters["reservation/infosResas"];
 
-      if (this.start.value !== '' && this.end.value !== '') {
+      if (this.start.value !== "" && this.end.value !== "") {
         for (let i = 0; i < selection.length; i++) {
           for (let j = 0; j < infosExistingResas.length; j++) {
             if (
               selection[i].id_couloir === infosExistingResas[j].id_couloir &&
-              selection[i].id_plateforme === infosExistingResas[j].id_plateforme &&
+              selection[i].id_plateforme ===
+                infosExistingResas[j].id_plateforme &&
               selection[i].id === infosExistingResas[j].id_application
             ) {
               if (
@@ -203,31 +195,31 @@ export default {
                   dayjs(infosExistingResas[j].date_debut),
                   dayjs(infosExistingResas[j].date_fin),
                   null,
-                  '[]'
+                  "[]"
                 ) ||
                 dayjs(this.end.value).isBetween(
                   dayjs(infosExistingResas[j].date_debut),
                   dayjs(infosExistingResas[j].date_fin),
                   null,
-                  '[]'
+                  "[]"
                 ) ||
                 dayjs(infosExistingResas[j].date_debut).isBetween(
                   dayjs(this.start.value),
                   dayjs(this.end.value),
                   null,
-                  '[]'
+                  "[]"
                 ) ||
                 dayjs(infosExistingResas[j].date_fin).isBetween(
                   dayjs(this.start.value),
                   dayjs(this.end.value),
                   null,
-                  '[]'
+                  "[]"
                 )
               ) {
-                this.start.isDateNotAlreadyExist = false
-                this.end.isDateNotAlreadyExist = false
-                this.formIsValid = false
-                this.invalid = true
+                this.start.isDateNotAlreadyExist = false;
+                this.end.isDateNotAlreadyExist = false;
+                this.formIsValid = false;
+                this.invalid = true;
               }
             }
           }
@@ -235,45 +227,45 @@ export default {
       }
     },
 
-    submitForm () {
-      console.log('step0')
-      this.intituleVerif()
-      console.log('step1')
-      this.dateVerif(true)
+    submitForm() {
+      console.log("step0");
+      this.intituleVerif();
+      console.log("step1");
+      this.dateVerif(true);
 
-      console.log('step2')
+      console.log("step2");
 
-      if (
-        !this.formIsValid ||
-        !this.intitule.isValid
-      ) {
-        this.invalid = true
-        return
+      if (!this.formIsValid || !this.intitule.isValid) {
+        this.invalid = true;
+        return;
       }
 
-      console.log('step3')
+      console.log("step3");
 
       const data = {
         intitule: this.intitule.value,
         comments: this.comments.value,
-        start: dayjs(this.start.value).format('DD/MM/YYYY'),
-        end: dayjs(this.end.value).format('DD/MM/YYYY')
-      }
+        start: dayjs(this.start.value).format("DD/MM/YYYY"),
+        end: dayjs(this.end.value).format("DD/MM/YYYY"),
+      };
 
-      this.$store.dispatch('reservation/setInfoResa', data)
-      this.$store.commit('reservation/setDisplayModalForm', false)
-      this.$store.commit('reservation/setDisplayModalResaSummary', true)
+      this.$store.dispatch("reservation/setInfoResa", data);
+      this.$store.commit("reservation/setDisplayModalForm", false);
+      this.$store.commit("reservation/setDisplayModalResaSummary", true);
       // console.log(this.$store.getters['reservation/reservationInfo']);
 
       // this.closeModal()
       // this.$store.commit('reservation/setDisplayModalResaSummary', true)
-      console.log(this.$store.getters['reservation/reservationInfo'], 'line 368')
+      console.log(
+        this.$store.getters["reservation/reservationInfo"],
+        "line 368"
+      );
     },
-    closeModal () {
-      this.$store.commit('reservation/setDisplayModalForm', false)
-    }
-  }
-}
+    closeModal() {
+      this.$store.commit("reservation/setDisplayModalForm", false);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

@@ -1,17 +1,9 @@
 <template>
   <section class="login">
-    <div
-      v-show="success"
-      class="dialog success"
-    >
-      <p class="success-message">
-        Authentification réussi
-      </p>
+    <div v-show="success" class="dialog success">
+      <p class="success-message">Authentification réussi</p>
     </div>
-    <div
-      v-show="error"
-      class="dialog error"
-    >
+    <div v-show="error" class="dialog error">
       <p class="error-message">
         {{ errorMessage }}
       </p>
@@ -20,99 +12,83 @@
       <form class="form" @submit.prevent="submitForm">
         <div class="box-control-email">
           <label for="email">E-Mail</label>
-          <input
-            id="email"
-            v-model.trim="email"
-            type="email"
-          >
+          <input id="email" v-model.trim="email" type="email" />
         </div>
         <div class="box-control-password">
           <label for="password">Password</label>
-          <input
-            id="password"
-            v-model.trim="password"
-            type="text"
-          >
+          <input id="password" v-model.trim="password" type="text" />
         </div>
-        <p
-          v-if="!formIsValid"
-          class="invalid"
-        >
+        <p v-if="!formIsValid" class="invalid">
           Tous les champs doivent être remplis
         </p>
-        <button class="button">
-          Valider
-        </button>
+        <button class="button">Valider</button>
       </form>
     </div>
   </section>
 </template>
 
 <script>
-/* eslint-disable no-useless-return */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-console */
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       formIsValid: true,
-      success: false
-    }
+      success: false,
+    };
   },
 
   computed: {
-    error () {
-      return this.$store.getters['auth/error']
+    error() {
+      return this.$store.getters["auth/error"];
     },
 
-    errorMessage () {
-      return this.$store.getters['auth/errorMessage']
-    }
+    errorMessage() {
+      return this.$store.getters["auth/errorMessage"];
+    },
   },
 
-  beforeDestroy () {
-    this.$store.commit('auth/setError', false)
-    this.success = false
-    this.email = ''
-    this.password = ''
-    this.$store.commit('auth/setConnectionInfos', {
-      email: '',
-      password: ''
-    })
+  beforeDestroy() {
+    this.$store.commit("auth/setError", false);
+    this.success = false;
+    this.email = "";
+    this.password = "";
+    this.$store.commit("auth/setConnectionInfos", {
+      email: "",
+      password: "",
+    });
   },
 
   methods: {
-    async submitForm () {
-      this.formIsValid = true
+    async submitForm() {
+      this.formIsValid = true;
       if (
-        this.email === '' ||
-        !this.email.includes('@') ||
-        this.password === ''
+        this.email === "" ||
+        !this.email.includes("@") ||
+        this.password === ""
       ) {
-        this.formIsValid = false
-        return
+        this.formIsValid = false;
+        return;
       }
 
       const data = {
         email: this.email,
-        password: this.password
-      }
+        password: this.password,
+      };
 
-      this.$store.commit('auth/setConnectionInfos', data)
+      this.$store.commit("auth/setConnectionInfos", data);
       // console.log(this.$store.getters['auth/connectionInfos'])
-      await this.$store.dispatch('auth/login')
+      await this.$store.dispatch("auth/login");
 
-      if (this.$store.getters['auth/connected']) {
-        this.success = true
+      if (this.$store.getters["auth/connected"]) {
+        this.success = true;
         setTimeout(() => {
-          this.$router.push('/')
-        }, 2000)
+          this.$router.push("/");
+        }, 2000);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

@@ -22,5 +22,8 @@ export default {
   },
   connected (state) {
     return state.connected
+  },
+  expirationDate(state) {
+    return state.expirationDate
   }
 }

@@ -10,36 +10,34 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
-import List from '../components/main/List'
-import ReservationUpdate from '~/components/reservation/ReservationUpdate'
-import ReservationDelete from '~/components/reservation/ReservationDelete'
-import ReservationConfirmation from '~/components/reservation/ReservationConfirmation'
+import List from "../components/reservation/List";
+import ReservationUpdate from "~/components/reservation/ReservationUpdate";
+import ReservationDelete from "~/components/reservation/ReservationDelete";
+import ReservationConfirmation from "~/components/reservation/ReservationConfirmation";
 
 export default {
   components: {
     List,
     ReservationUpdate,
     ReservationDelete,
-    ReservationConfirmation
+    ReservationConfirmation,
   },
-  middleware: 'check-auth',
+  middleware: "check-auth",
 
   computed: {
-    displayModalUpdate () {
-      return this.$store.getters['reservation/displayModalUpdate']
+    displayModalUpdate() {
+      return this.$store.getters["reservation/displayModalUpdate"];
     },
-    displayModalDelete () {
-      return this.$store.getters['reservation/displayModalDelete']
+    displayModalDelete() {
+      return this.$store.getters["reservation/displayModalDelete"];
       // return true
     },
-    displayModalResaConfirmation () {
-      return this.$store.getters['reservation/displayModalResaConfirmation']
-    }
-  }
-}
+    displayModalResaConfirmation() {
+      return this.$store.getters["reservation/displayModalResaConfirmation"];
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

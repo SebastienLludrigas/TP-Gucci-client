@@ -34,7 +34,9 @@
           date fin : <span class="date">{{ dateFin }}</span>
         </p>
         <p v-if="infosResaModal.comments !== null" class="item-info">
-          Commentaire : <br><span class="comments">{{ infosResaModal.comments }}</span>
+          Commentaire : <br /><span class="comments">{{
+            infosResaModal.comments
+          }}</span>
         </p>
       </div>
     </div>
@@ -42,29 +44,31 @@
 </template>
 
 <script>
-/* eslint-disable vue/require-prop-types */
-/* eslint-disable no-console */
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 export default {
   computed: {
-    dateDebut () {
-      return dayjs(this.$store.getters['reservation/infosResaModal'].date_debut).format('DD/MM/YYYY')
+    dateDebut() {
+      return dayjs(
+        this.$store.getters["reservation/infosResaModal"].date_debut
+      ).format("DD/MM/YYYY");
     },
-    dateFin () {
-      return dayjs(this.$store.getters['reservation/infosResaModal'].date_fin).format('DD/MM/YYYY')
+    dateFin() {
+      return dayjs(
+        this.$store.getters["reservation/infosResaModal"].date_fin
+      ).format("DD/MM/YYYY");
     },
-    infosResaModal () {
+    infosResaModal() {
       // console.log(this.$store.getters['reservation/infosResaModal'])
-      return this.$store.getters['reservation/infosResaModal']
-    }
+      return this.$store.getters["reservation/infosResaModal"];
+    },
   },
   methods: {
-    closeModal () {
-      this.$store.commit('reservation/setDisplayModalResaInfo', false)
-    }
-  }
-}
+    closeModal() {
+      this.$store.commit("reservation/setDisplayModalResaInfo", false);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

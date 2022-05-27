@@ -4,54 +4,49 @@
       <div class="flex-container">
         <div class="box-control">
           <label for="startDate">Date début</label>
-          <input id="startDate" v-model="startDate" type="date">
+          <input id="startDate" v-model="startDate" type="date" />
         </div>
         <div class="box-control">
           <label for="endDate">Date fin</label>
-          <input id="endDate" v-model="endDate" type="date">
+          <input id="endDate" v-model="endDate" type="date" />
         </div>
       </div>
-      <button class="button-validation">
-        Valider
-      </button>
+      <button class="button-validation">Valider</button>
     </form>
   </div>
 </template>
 
 <script>
-/* eslint-disable no-console */
-import dayjs from 'dayjs'
-const dayOfYear = require('dayjs/plugin/dayOfYear')
-dayjs.extend(dayOfYear)
+import dayjs from "dayjs";
+const dayOfYear = require("dayjs/plugin/dayOfYear");
+dayjs.extend(dayOfYear);
 
 export default {
-  data () {
+  data() {
     return {
-      startDate: '',
-      endDate: ''
-    }
+      startDate: "",
+      endDate: "",
+    };
   },
-  computed: {
-
-  },
-  created () {
+  computed: {},
+  created() {
     // console.log(dayjs().format('YYYY-MM-DD'), dayjs().add(2, 'month').format('YYYY-MM-DD'))
 
-    this.startDate = dayjs().format('YYYY-MM-DD')
-    this.endDate = dayjs().add(2, 'month').format('YYYY-MM-DD')
-    this.submitForm()
+    this.startDate = dayjs().format("YYYY-MM-DD");
+    this.endDate = dayjs().add(2, "month").format("YYYY-MM-DD");
+    this.submitForm();
   },
   methods: {
-    submitForm () {
+    submitForm() {
       // console.log(this.startDate, this.endDate);
       const inputDate = {
         start: this.startDate,
-        end: this.endDate
-      }
-      this.$store.commit('setDateBox', inputDate)
-    }
-  }
-}
+        end: this.endDate,
+      };
+      this.$store.commit("setDateBox", inputDate);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

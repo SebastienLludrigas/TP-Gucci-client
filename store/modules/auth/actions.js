@@ -1,7 +1,5 @@
-/* eslint-disable no-useless-return */
 import Cookie from 'js-cookie'
 
-/* eslint-disable no-console */
 export default {
   async login (context) {
     context.commit('setError', false)
@@ -12,21 +10,20 @@ export default {
       password: context.getters.connectionInfos.password
     }
 
-    // console.log(data)
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
+      const response = await fetch(
+        'http://localhost:3000/auth/login',
+        {
+          method: 'POST',
 
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }
+      )
 
       const responseData = await response.json()
-
-      // console.log(responseData)
-      // console.log(response)
 
       if (!response.ok) {
         context.commit('setError', true)
@@ -34,16 +31,9 @@ export default {
         return
       }
 
-      localStorage.setItem('token', responseData.token)
-      localStorage.setItem('userId', responseData.userId)
-      const remainingMilliseconds = 60 * 59 * 1000
-      // const remainingMilliseconds = 8000
+      const remainingMilliseconds = 59 * 60 * 1000
+      // const remainingMilliseconds = 15000
       const expiryDate = new Date().getTime() + remainingMilliseconds
-
-      // console.log(`expiration date : ${expiryDate / 1000}`)
-      // console.log(`current date : ${new Date().getTime() / 1000}`)
-
-      localStorage.setItem('expiryDate', expiryDate)
 
       Cookie.set('jwt', responseData.token)
       Cookie.set('expiryDate', expiryDate)
@@ -52,7 +42,10 @@ export default {
 
       context.commit('setToken', responseData.token)
       context.commit('setUserInfos', responseData.loadedUser)
-      context.commit('setInitialUserReservations', responseData.infosReservations)
+      context.commit(
+        'setInitialUserReservations',
+        responseData.infosReservations
+      )
       context.commit('setConnected', true)
     } catch (err) {
       console.log(err)
@@ -64,16 +57,13 @@ export default {
     let expirationDate
 
     if (req) {
-      // this.app.router.go()
       if (!req.headers.cookie) {
-        console.log('step1')
         return
       }
       const jwtCookie = req.headers.cookie
         .split(';')
         .find(c => c.trim().startsWith('jwt='))
       if (!jwtCookie) {
-        console.log('step2')
         return
       }
       token = jwtCookie.split('=')[1]
@@ -82,41 +72,35 @@ export default {
         .find(c => c.trim().startsWith('expiryDate='))
         .split('=')[1]
 
-      // console.log(`expiration date : ${+expirationDate / 1000}`)
-      // console.log(`current date : ${new Date().getTime() / 1000}`)
-
-      // console.log(+(expirationDate - new Date().getTime()))
-
       try {
-        const response = await fetch('http://localhost:3000/auth/persistLogin', {
-          method: 'POST',
-
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ token })
-        })
+        const response = await fetch(
+          'http://localhost:3000/auth/persistLogin',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+          }
+        )
 
         const responseData = await response.json()
-
-        // console.log(response)
-        // console.log(responseData)
 
         if (!response.ok) {
           this.app.router.push('/Login')
         }
 
         context.commit('setUserInfos', responseData.loadedUser)
-        // console.log(responseData)
-        console.log(responseData.infosReservations, 'test')
-        context.commit('setInitialUserReservations', responseData.infosReservations)
-        console.log(context.getters.userReservations)
+        context.commit(
+          'setInitialUserReservations',
+          responseData.infosReservations
+        )
       } catch (err) {
         console.log(err)
       }
     } else {
-      token = localStorage.getItem('token')
-      expirationDate = localStorage.getItem('expiryDate')
+      token = Cookie.get('jwt')
+      expirationDate = Cookie.get('expiryDate')
     }
 
     if (new Date().getTime() > +expirationDate || !token) {
@@ -132,11 +116,11 @@ export default {
   autoLogout (context, payload) {
     setTimeout(() => {
       context.dispatch('logout')
+      if (this.app.router.history.current.path === '/ReservationsList') this.app.router.push('/Login')
     }, payload)
   },
 
   logout (context) {
-    // this.app.router.push('/Login')
     context.commit('setToken', null)
     context.commit('setUserInfos', null)
     context.commit('setUserReservations', null)
@@ -144,11 +128,5 @@ export default {
 
     Cookie.remove('jwt')
     Cookie.remove('expiryDate')
-
-    if (process.client) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('expiryDate')
-      localStorage.removeItem('userId')
-    }
   }
 }

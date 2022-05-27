@@ -50,5 +50,8 @@ export default {
   },
   setConnected (state, payload) {
     state.connected = payload
+  },
+  setExpirationDate (state, payload) {
+    state.expirationDate = payload
   }
 }

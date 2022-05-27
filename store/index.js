@@ -3,7 +3,6 @@
 import mutations from './modules/main/mutations'
 import getters from './modules/main/getters'
 
-// eslint-disable-next-line import/no-named-as-default-member
 export const state = () => ({
   weeksList: {},
   daysList: {},

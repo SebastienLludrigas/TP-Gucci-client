@@ -17,16 +17,14 @@
 </template>
 
 <script>
-
-/* eslint-disable no-console */
-import DateBox from '~/components/main/DateBox'
-import SelectionBox from '~/components/main/SelectionBox'
+import DateBox from "~/components/main/DateBox";
+import SelectionBox from "~/components/main/SelectionBox";
 // import DynamicArrayCopy from '~/components/main/DynamicArrayCopy'
-import DynamicArray from '~/components/main/DynamicArray'
-import ReservationForm from '~/components/reservation/ReservationForm'
-import ReservationSummary from '~/components/reservation/ReservationSummary'
-import ReservationConfirmation from '~/components/reservation/ReservationConfirmation'
-import ReservationModalInfo from '~/components/reservation/ReservationModalInfo'
+import DynamicArray from "~/components/main/DynamicArray";
+import ReservationForm from "~/components/reservation/ReservationForm";
+import ReservationSummary from "~/components/reservation/ReservationSummary";
+import ReservationConfirmation from "~/components/reservation/ReservationConfirmation";
+import ReservationModalInfo from "~/components/reservation/ReservationModalInfo";
 
 export default {
   components: {
@@ -36,29 +34,29 @@ export default {
     ReservationForm,
     ReservationSummary,
     ReservationConfirmation,
-    ReservationModalInfo
+    ReservationModalInfo,
   },
 
   middleware: 'check-auth',
 
   computed: {
-    displayModalForm () {
-      return this.$store.getters['reservation/displayModalForm']
+    displayModalForm() {
+      return this.$store.getters["reservation/displayModalForm"];
     },
-    displayModalFormUpdate () {
-      return this.$store.getters['reservation/displayModalFormUpdate']
+    displayModalFormUpdate() {
+      return this.$store.getters["reservation/displayModalFormUpdate"];
     },
-    displayModalResaSummary () {
-      return this.$store.getters['reservation/displayModalResaSummary']
+    displayModalResaSummary() {
+      return this.$store.getters["reservation/displayModalResaSummary"];
     },
-    displayModalResaConfirmation () {
-      return this.$store.getters['reservation/displayModalResaConfirmation']
+    displayModalResaConfirmation() {
+      return this.$store.getters["reservation/displayModalResaConfirmation"];
     },
-    displayModalResaInfo () {
-      return this.$store.getters['reservation/displayModalResaInfo']
-    }
-  }
-}
+    displayModalResaInfo() {
+      return this.$store.getters["reservation/displayModalResaInfo"];
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -1,11 +1,6 @@
 <template>
-  <div
-    class="container"
-  >
-    <section
-      id="scroll-container"
-      class="container-array"
-    >
+  <div class="container">
+    <section id="scroll-container" class="container-array">
       <table class="table">
         <thead>
           <tr>
@@ -20,17 +15,9 @@
             </th>
           </tr>
           <tr>
-            <th
-              class="col-sticky couloir head"
-            >
-              Couloir
-            </th>
-            <th class="col-sticky plateforme head">
-              Plateforme
-            </th>
-            <th class="col-sticky application head">
-              Application
-            </th>
+            <th class="col-sticky couloir head">Couloir</th>
+            <th class="col-sticky plateforme head">Plateforme</th>
+            <th class="col-sticky application head">Application</th>
             <th v-for="day in days" :key="day.date" class="col-sticky day">
               {{ day.name }}
             </th>
@@ -91,121 +78,134 @@
         </tbody>
       </table>
     </section>
-    <button v-if="startReservation" @click="displayModal">
-      Je réserve
-    </button>
+    <button v-if="startReservation" @click="displayModal">Je réserve</button>
   </div>
 </template>
 
 <script>
-/* eslint-disable no-console */
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
-const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
-dayjs.extend(isSameOrAfter)
-const isBetween = require('dayjs/plugin/isBetween')
-dayjs.extend(isBetween)
+const isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+dayjs.extend(isSameOrAfter);
+const isBetween = require("dayjs/plugin/isBetween");
+dayjs.extend(isBetween);
 
 export default {
-  data () {
+  data() {
     return {
       currentInfoResa: {},
       result: false,
-      stopInfiniteScrolling: false
-    }
+      stopInfiniteScrolling: false,
+    };
   },
   computed: {
-    weeks () {
+    weeks() {
       // console.log(this.$store.getters.arrayWeeks)
-      return this.$store.getters.arrayWeeks
+      return this.$store.getters.arrayWeeks;
     },
-    days () {
+    days() {
       // console.log(this.$store.getters.arrayDays)
-      return this.$store.getters.arrayDays
+      return this.$store.getters.arrayDays;
     },
-    arrayContent () {
+    arrayContent() {
       // console.log(this.$store.getters.permanentAppPlCo)
-      return this.$store.getters.partialSelectionApp
+      return this.$store.getters.partialSelectionApp;
     },
-    startReservation () {
+    startReservation() {
       // console.log(this.$store.getters['reservation/startReservation'], 'line 160')
-      return this.$store.getters['reservation/startReservation'] &&
-             this.$store.getters['auth/connected']
-    }
+      return (
+        this.$store.getters["reservation/startReservation"] &&
+        this.$store.getters["auth/connected"]
+      );
+    },
   },
-  mounted () {
-    this.getNextArrayContent()
+  mounted() {
+    this.getNextArrayContent();
   },
-  updated () {
-    this.resetScroll()
+  updated() {
+    this.resetScroll();
   },
   methods: {
     // Méthode permettant de gérer le reset du scroll
-    resetScroll () {
+    resetScroll() {
       // Si le reset du scroll est à true
       if (this.$store.getters.resetScrollTop) {
         // On repasse le scrollTop à 0 pour remonter la barre de scroll en haut du tableau
-        document.querySelector('#scroll-container').scrollTop = 0
+        document.querySelector("#scroll-container").scrollTop = 0;
         // Ensuite on repasse le reset du scroll à false
-        this.$store.commit('setResetScrollTop', false)
+        this.$store.commit("setResetScrollTop", false);
       }
     },
     // Méthode permettant de gérer le scroll infini
-    getNextArrayContent () {
-      const arrayScroll = document.querySelector('#scroll-container')
-      arrayScroll.addEventListener('scroll', (event) => {
-        const { scrollTop, scrollHeight, clientHeight } = event.target
+    getNextArrayContent() {
+      const arrayScroll = document.querySelector("#scroll-container");
+      arrayScroll.addEventListener("scroll", (event) => {
+        const { scrollTop, scrollHeight, clientHeight } = event.target;
 
         // Si le tableau partiel === le tableau complet, cela veut dire que l'on a récupéré toutes
         // les données dans le tableau partiel, on stoppe donc le scroll infini
-        if (this.$store.getters.partialSelectionApp.length === this.$store.getters.selectionApp.length) {
-          this.stopInfiniteScrolling = true
+        if (
+          this.$store.getters.partialSelectionApp.length ===
+          this.$store.getters.selectionApp.length
+        ) {
+          this.stopInfiniteScrolling = true;
           // Sinon on continu le scroll infini
         } else {
-          this.stopInfiniteScrolling = false
+          this.stopInfiniteScrolling = false;
         }
 
         // Si la hauteur totale du scroll du tableau + l'emplacement courant de la barre de scroll
         // est supérieur à la hauteur totale du tableau (overflow compris) moins 300px * le
         // nombre de reload ET si le stopInfiniteScrolling est à false, on déclenche le chargement
         // d'un nouveau paquet de données dans le tableau
-        if (((clientHeight + scrollTop) >= (scrollHeight - (300 * this.$store.getters.nbReload))) && !this.stopInfiniteScrolling) {
+        if (
+          clientHeight + scrollTop >=
+            scrollHeight - 300 * this.$store.getters.nbReload &&
+          !this.stopInfiniteScrolling
+        ) {
           // console.log(this.$store.getters.nbReload)
 
           // Limite basse du nombre de lignes à charger
-          const down = this.$store.getters.nbReload * 50
+          const down = this.$store.getters.nbReload * 50;
 
           // Limite haute du nombre de lignes à charger
-          const up = down + 50
+          const up = down + 50;
 
           // On filtre sur le tableau complet pour ne garder que les lignes qui correspondent
           // à la partie des données à recharger
-          const contentToAdd = this.$store.getters.selectionApp
-            .filter((_, index) => index >= down && index < up)
+          const contentToAdd = this.$store.getters.selectionApp.filter(
+            (_, index) => index >= down && index < up
+          );
 
           // On ajoute ces nouvelles données au contenu du tableau partiel courant dans un nouveau
           // tableau
-          const newArrayContent = [...this.$store.getters.partialSelectionApp, ...contentToAdd]
+          const newArrayContent = [
+            ...this.$store.getters.partialSelectionApp,
+            ...contentToAdd,
+          ];
 
           // On met à jour le tableau partiel avec ce nouveau tableau
-          this.$store.commit('setPartialSelectionApp', newArrayContent)
+          this.$store.commit("setPartialSelectionApp", newArrayContent);
           // On incrémente le compteur de rechargement
-          this.$store.commit('setNbReload', this.$store.getters.nbReload + 1)
+          this.$store.commit("setNbReload", this.$store.getters.nbReload + 1);
         }
-      })
+      });
     },
-    openModal (item, dayDate) {
-      this.$store.commit('reservation/setInfosResaModal', this.displayResaBanner(item, dayDate).infosResa)
-      this.$store.commit('reservation/setDisplayModalResaInfo', true)
+    openModal(item, dayDate) {
+      this.$store.commit(
+        "reservation/setInfosResaModal",
+        this.displayResaBanner(item, dayDate).infosResa
+      );
+      this.$store.commit("reservation/setDisplayModalResaInfo", true);
     },
-    displayModal () {
-      this.$store.commit('reservation/setDisplayModalForm', true)
+    displayModal() {
+      this.$store.commit("reservation/setDisplayModalForm", true);
     },
-    displayResaBanner (currentRow, currentDay) {
-      const infosResas = this.$store.getters['reservation/infosResas']
+    displayResaBanner(currentRow, currentDay) {
+      const infosResas = this.$store.getters["reservation/infosResas"];
       const info = {
-        display: false
-      }
+        display: false,
+      };
       for (let i = 0; i < infosResas.length; i++) {
         // console.log(item.date_debut);
         if (
@@ -218,38 +218,38 @@ export default {
               dayjs(infosResas[i].date_debut),
               dayjs(infosResas[i].date_fin),
               null,
-              '[ ]'
+              "[ ]"
             )
           ) {
-            info.display = true
+            info.display = true;
             info.displayIntitule =
               dayjs(
                 dayjs(infosResas[i].date_debut).add(
                   Math.floor(infosResas[i].nbJoursReservation / 2),
-                  'day'
+                  "day"
                 )
-              ).format('YYYY-MM-DD') === currentDay
-            info.intitule = infosResas[i].intitule
-            info.nbDaysResaIsEven = infosResas[i].nbJoursReservation % 2 === 0
-            info.idResa = infosResas[i].id_reservation
-            info.infosResa = infosResas[i]
+              ).format("YYYY-MM-DD") === currentDay;
+            info.intitule = infosResas[i].intitule;
+            info.nbDaysResaIsEven = infosResas[i].nbJoursReservation % 2 === 0;
+            info.idResa = infosResas[i].id_reservation;
+            info.infosResa = infosResas[i];
             info.idResaAndDisplayIntitule = {
               displayIntitule:
                 dayjs(
                   dayjs(infosResas[i].date_debut).add(
                     Math.floor(infosResas[i].nbJoursReservation / 2),
-                    'day'
+                    "day"
                   )
-                ).format('YYYY-MM-DD') === currentDay,
-              idResa: infosResas[i].id_reservation
-            }
+                ).format("YYYY-MM-DD") === currentDay,
+              idResa: infosResas[i].id_reservation,
+            };
           }
         }
       }
-      return info
-    }
-  }
-}
+      return info;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
