@@ -1,15 +1,13 @@
 <template>
-  <client-only>
-    <UsersList />
-  </client-only>
+  <UserNew />
 </template>
 
 <script>
-import UsersList from '~/components/admin/UsersList';
+import UserNew from '~/components/admin/UserNew.vue';
 
 export default {
   components: {
-    UsersList
+    UserNew
   },
 
   middleware: ['check-auth', 'check-admin'],

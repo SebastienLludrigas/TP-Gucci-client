@@ -1,15 +1,13 @@
 <template>
-  <client-only>
-    <UsersList />
-  </client-only>
+  <UserDetails :id="$route.params.id" />
 </template>
 
 <script>
-import UsersList from '~/components/admin/UsersList';
+import UserDetails from '~/components/admin/UserDetails.vue';
 
 export default {
   components: {
-    UsersList
+    UserDetails
   },
 
   middleware: ['check-auth', 'check-admin'],

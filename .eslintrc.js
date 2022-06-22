@@ -30,6 +30,7 @@ module.exports = {
     "no-useless-return": "off",
     "eol-last": "off",
     "vue/multiline-html-element-content-newline": "off",
-    "vue/valid-template-root": "off"
+    "vue/valid-template-root": "off",
+    "no-trailing-spaces": "off"
   }
 }

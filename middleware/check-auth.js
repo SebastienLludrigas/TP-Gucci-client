@@ -1,9 +1,8 @@
 export default function (context) {
-  // if (process.server) {
-  console.log("[Middleware] Check Auth, refreshed page !");
-  // console.log(context.req.headers.cookie)
+  console.log("Check Auth");
+
+  // console.log(context)
+  console.log(context.route.path)
+
   return context.store.dispatch("auth/initAuth", context.req);
-  // } else {
-  //   console.log('[Middleware] Check Auth, page modified on the client only !')
-  // }
 }

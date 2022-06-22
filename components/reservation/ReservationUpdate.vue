@@ -365,8 +365,10 @@ export default {
 
         this.$store.commit("reservation/setDisplayModalUpdate", false);
         this.$store.commit("reservation/setDisplayModalResaConfirmation", true);
-        setTimeout(() => {
-          this.$router.go();
+        setTimeout(async () => {
+          // this.$router.go();
+          await this.$store.dispatch('reservation/getResasAfterUpdate');
+          await this.$store.dispatch('reservation/loadInfosResas');
           this.$store.commit(
             "reservation/setDisplayModalResaConfirmation",
             false

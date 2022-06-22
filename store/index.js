@@ -31,6 +31,7 @@ export const actions = {
     await dispatch('reservation/loadInfosResas');
     await dispatch('loadApplications');
     await dispatch('loadCouloirs');
+    await dispatch('admin/fetchUsersWithAllInfos');
   },
   async loadApplications (context) {
     const response = await fetch('http://localhost:3000/main/applications')

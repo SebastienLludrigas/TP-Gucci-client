@@ -59,7 +59,7 @@ export default {
         context.commit("setCreateError", false);
         context.dispatch("auth/logout", null, { root: true });
         // context.commit('auth/setConnected', false, { root: true })
-        // this.app.router.push('/Login')
+        // this.app.router.push('/login')
         return;
       }, 3000);
     }
@@ -116,7 +116,7 @@ export default {
           context.commit("setUpdateError", false);
           context.dispatch("auth/logout", null, { root: true });
           // context.commit('auth/setConnected', false, { root: true })
-          // this.app.router.push('/Login')
+          // this.app.router.push('/login')
           return;
         }, 3000);
       }
@@ -138,7 +138,7 @@ export default {
         }, 3000);
       }
 
-      // context.commit('auth/setInitialUserReservations', responseData.infosReservations, { root: true })
+      // context.commit('auth/loadUserReservations', responseData.infosReservations, { root: true })
     } catch (err) {
       console.log(err);
     }
@@ -176,7 +176,7 @@ export default {
           context.commit("setDeleteError", false);
           context.dispatch("auth/logout", null, { root: true });
           // context.commit('auth/setConnected', false, { root: true })
-          // this.app.router.push('/Login')
+          // this.app.router.push('/login')
           return;
         }, 3000);
       }
@@ -194,7 +194,7 @@ export default {
         }, 3000);
       }
 
-      // context.commit('auth/setInitialUserReservations', responseData.infosReservations, { root: true })
+      // context.commit('auth/loadUserReservations', responseData.infosReservations, { root: true })
     } catch (err) {}
   },
 
@@ -229,7 +229,7 @@ export default {
           context.commit("setDeleteError", false);
           context.dispatch("auth/logout", null, { root: true });
           // context.commit('auth/setConnected', false, { root: true })
-          // this.app.router.push('/Login')
+          // this.app.router.push('/login')
           return;
         }, 3000);
       }
@@ -247,7 +247,7 @@ export default {
         }, 3000);
       }
 
-      // context.commit('auth/setInitialUserReservations', responseData.infosReservations, { root: true })
+      // context.commit('auth/loadUserReservations', responseData.infosReservations, { root: true })
     } catch (err) {}
   },
 
@@ -265,5 +265,33 @@ export default {
       throw error;
     }
     context.commit("loadInfosResas", responseData.infosResas);
+    // context.commit("admin/loadReservations", responseData.infosResas, { root: true });
   },
+
+  async getResasAfterUpdate(context) {
+    const token = context.rootGetters["auth/token"];
+
+    const response = await fetch(
+      "http://localhost:3000/reservation/updatedReservations",
+      {
+        method: "GET",
+
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const responseData = await response.json();
+    // console.log(responseData.infosResas)
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Failed to fetch !"
+      );
+      throw error;
+    } 
+
+    context.commit("auth/loadUserReservations", responseData.infosReservations, { root: true });
+  }
 };

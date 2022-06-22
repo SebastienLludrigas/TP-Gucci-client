@@ -9,18 +9,18 @@
             :checked="allAppChecked"
             @change="allSelection"
           />
-          <label for="">Tout (sauf V2)</label>
+          <label for="">Tout</label>
         </div>
-        <div class="application">
+        <!-- <div class="application">
           <button @click="refresh">Voir</button>
           <label>V2</label>
-        </div>
+        </div> -->
         <div
           v-for="application in applicationsList"
           :key="application.id_application"
           class="application"
         >
-          <button>Voir</button>
+          <!-- <button>Voir</button> -->
           <input
             :id="application.id_application"
             type="checkbox"
@@ -37,7 +37,7 @@
             :checked="allCouChecked"
             @change="allSelection"
           />
-          <label for="">Tout</label>
+          <label>Tout</label>
         </div>
         <div
           v-for="couloir in couloirsList"
@@ -371,7 +371,7 @@ export default {
     display: flex;
     width: 100%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
-    padding: 0.5rem;
+    padding: 0.7rem;
     border-radius: 3px;
     margin: 0.5rem 0;
     border: 0.5px solid $bleu-pastel;
@@ -388,6 +388,11 @@ export default {
       align-items: center;
       justify-content: flex-start;
       margin-bottom: 0.3rem;
+
+      &.all {
+        text-transform: uppercase;
+        font-weight: bold;
+      }
 
       input[type="checkbox"] {
         width: 0.7rem;
@@ -413,7 +418,7 @@ export default {
     }
 
     .all {
-      margin-left: 2.75rem;
+      // margin-left: 2.75rem;
     }
   }
 
@@ -427,6 +432,11 @@ export default {
       display: flex;
       align-items: center;
       margin: 1rem 0;
+
+      &.all {
+        text-transform: uppercase;
+        font-weight: bold;
+      }
 
       label {
         // margin-left: 0.8rem;

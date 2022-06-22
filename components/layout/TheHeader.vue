@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="logo-urssaf">
-      <img src="~/assets/images/logo-urssaf.png" alt="logo urssaf">
+      <img src="~/assets/images/logo-urssaf.png" alt="logo urssaf" />
     </div>
     <nuxt-link to="/">
       <h1 class="title">
@@ -11,33 +11,16 @@
     </nuxt-link>
     <nav class="navbar">
       <ul>
-        <li>
-          <nuxt-link to="/admin">
-            Admin
-          </nuxt-link>
+        <li v-if="isAdmin">
+          <nuxt-link to="/admin"> Admin </nuxt-link>
         </li>
         <li v-if="!isConnected">
-          <nuxt-link to="/Login">
-            Connexion
-          </nuxt-link>
+          <nuxt-link to="/login"> Connexion </nuxt-link>
         </li>
-        <li
-          v-else
-          class="logout"
-          @click="logout"
-        >
-          Déconnexion
-        </li>
+        <li v-else class="logout" @click="logout">Déconnexion</li>
         <li v-if="isConnected">
-          <nuxt-link to="/ReservationsList">
-            Mes réservations
-          </nuxt-link>
+          <nuxt-link to="/reservation-list"> Mes réservations </nuxt-link>
         </li>
-        <!-- <li>
-          <nuxt-link to="/Timeline">
-            Frise chronologique
-          </nuxt-link>
-        </li> -->
       </ul>
     </nav>
   </header>
@@ -46,18 +29,29 @@
 <script>
 export default {
   computed: {
-    isConnected () {
-      return this.$store.getters['auth/connected']
+    isConnected() {
+      return this.$store.getters["auth/connected"];
+    },
+
+    isAdmin() {
+      if (this.$store.getters["auth/userInfos"]) {
+        return (
+          this.$store.getters["auth/connected"] &&
+          this.$store.getters["auth/userInfos"].role === 'admin'
+        );
+      } else {
+        return false
+      }
     }
   },
 
   methods: {
-    logout () {
-      this.$store.dispatch('auth/logout')
-      this.$router.push('/Login')
-    }
-  }
-}
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -109,7 +103,7 @@ export default {
           color: #333;
 
           &:hover,
-          .router-link-active {
+          &.nuxt-link-active {
             color: $vert;
           }
         }

@@ -94,19 +94,24 @@ export default {
 <style scoped lang="scss">
 .login {
   .dialog {
-    margin: 0.8rem auto 0;
-    width: 15rem;
-    border-radius: 3px;
-    padding: 0.6rem;
-    text-align: center;
+    width: 50%;
+    margin: 1rem auto;
 
     &.error {
+      width: 15rem;
+      border-radius: 3px;
+      padding: 0.6rem;
+      text-align: center;
       background-color: rgb(255, 228, 232);
       border: 1px solid red;
       color: red;
     }
 
     &.success {
+      width: 15rem;
+      border-radius: 3px;
+      padding: 0.6rem;
+      text-align: center;
       background-color: rgb(228, 255, 234);
       border: 1px solid green;
       color: green;

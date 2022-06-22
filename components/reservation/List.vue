@@ -36,13 +36,7 @@
                     <td class="data-name">Intitule</td>
                     <td>{{ reservation.intituleReservation }}</td>
                     <td
-                      @click="
-                        update(
-                          'intitule',
-                          reservation.intituleReservation,
-                          reservation.idReservation
-                        )
-                      "
+                      @click="update('intitule',reservation.intituleReservation, reservation.idReservation)"
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
@@ -55,47 +49,25 @@
                       </div>
                     </td>
                     <td
-                      @click="
-                        update(
-                          'comments',
-                          reservation.commentsReservation,
-                          reservation.idReservation
-                        )
-                      "
+                      @click="update('comments',reservation.commentsReservation, reservation.idReservation)"
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
                   </tr>
                   <tr>
                     <td class="data-name">Date de début</td>
-                    <td>{{ reservation.dateDebutReservation }}</td>
+                    <td>{{ reservation.dateDebutReservation | date }}</td>
                     <td
-                      @click="
-                        updateDate(
-                          'dateDebut',
-                          reservation.dateDebutReservation,
-                          reservation.dateFinReservation,
-                          reservation.allReservedApplications,
-                          reservation.idReservation
-                        )
-                      "
+                      @click="updateDate('dateDebut',reservation.dateDebutReservation, reservation.dateFinReservation,reservation.allReservedApplications, reservation.idReservation)"
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
                   </tr>
                   <tr>
                     <td class="data-name">Date de fin</td>
-                    <td>{{ reservation.dateFinReservation }}</td>
+                    <td>{{ reservation.dateFinReservation | date }}</td>
                     <td
-                      @click="
-                        updateDate(
-                          'dateFin',
-                          reservation.dateDebutReservation,
-                          reservation.dateFinReservation,
-                          reservation.allReservedApplications,
-                          reservation.idReservation
-                        )
-                      "
+                      @click="updateDate('dateFin', reservation.dateDebutReservation, reservation.dateFinReservation,reservation.allReservedApplications, reservation.idReservation)"
                     >
                       <i class="fas fa-pencil-alt" aria-hidden="true" />
                     </td>
@@ -139,24 +111,11 @@
             </div>
             <button
               class="button resa-delete"
-              @click="
-                deleteAll(
-                  reservation.intituleReservation,
-                  reservation.idReservation
-                )
-              "
+              @click="deleteAll(reservation.intituleReservation, reservation.idReservation)"
             >
               Supprimer
             </button>
           </div>
-          <!-- <p
-              v-for="application in reservation.allReservedApplications"
-              :key="application.id_application"
-            >
-              <span>{{ application.nom_couloir }}</span> |
-              <span>{{ application.nom_plateforme }}</span> |
-              <span>{{ application.nom_application }}</span>
-            </p> -->
         </div>
       </div>
     </section>
@@ -171,22 +130,9 @@ export default {
     },
   },
 
-  mounted() {
-    // this.$router.go()
-  },
-
   methods: {
     toggleInfosResa(id) {
       console.log("It goes trought there");
-      // const testArray = [...]
-      // const newReservationsList = this.$store.getters['auth/userReservations'].filter((item) => {
-      //   if (item.idReservation === id) {
-      //     item.show = !item.show
-      //   }
-      //   return true
-      // })
-
-      // this.reservationsList = newReservationsList
       this.$store.commit("auth/setUserReservations", id);
     },
 

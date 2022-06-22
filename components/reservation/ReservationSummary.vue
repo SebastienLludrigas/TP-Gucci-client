@@ -103,13 +103,13 @@ export default {
     }
   },
   methods: {
-    async loadInfosResas () {
-      try {
-        await this.$store.dispatch('reservation/loadInfosResas')
-      } catch (error) {
-        return error
-      }
-    },
+    // async loadInfosResas () {
+    //   try {
+    //     await this.$store.dispatch('reservation/loadInfosResas')
+    //   } catch (error) {
+    //     return error
+    //   }
+    // },
     closeModal () {
       this.$store.commit('reservation/setDisplayModalResaSummary', false)
     },
